@@ -1,0 +1,1 @@
+This is a cmake project with catch as test framework.s
