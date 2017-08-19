@@ -8,7 +8,7 @@
 #include <utility>
 
 template<typename VALUE, typename FUNCTION>
-auto operator|(VALUE&& value, FUNCTION fun)-> decltype(fun(std::forward(value)))
+auto operator|(VALUE&& value, FUNCTION fun)-> decltype(fun(std::forward<VALUE>(value)))
 {
     return fun(std::forward<VALUE>(value));
 }
