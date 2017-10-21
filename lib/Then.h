@@ -13,9 +13,9 @@
 #include <optional>
 
 template< typename F>
-struct Then{
+struct ThenImpl{
     F f;
-    constexpr explicit Then(F func):f(func){}
+    constexpr explicit ThenImpl(F func):f(func){}
 
     template<typename T>
     constexpr auto operator()(std::optional<T>&& opt_value)-> typename std::enable_if<!std::is_void<decltype(f(std::forward<decltype(opt_value.value())>(opt_value.value())))>::value,std::optional<decltype(f(std::forward<decltype(opt_value.value())>(opt_value.value())))>>::type
@@ -35,5 +35,11 @@ struct Then{
     }
 
 };
+
+template<typename F>
+constexpr auto Then(F&& f)
+{
+   return ThenImpl<F>(std::forward<F>(f));
+}
 
 #endif //CATCH_THEN_H
