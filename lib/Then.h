@@ -18,7 +18,7 @@ struct ThenImpl{
     constexpr explicit ThenImpl(F func):f(func){}
 
     template<typename T>
-    constexpr auto operator()(std::optional<T>&& opt_value)-> typename std::enable_if<!std::is_void<decltype(f(std::forward<decltype(opt_value.value())>(opt_value.value())))>::value,std::optional<decltype(f(std::forward<decltype(opt_value.value())>(opt_value.value())))>>::type
+    constexpr auto operator()(std::optional<T>&& opt_value)const-> typename std::enable_if<!std::is_void<decltype(f(std::forward<decltype(opt_value.value())>(opt_value.value())))>::value,std::optional<decltype(f(std::forward<decltype(opt_value.value())>(opt_value.value())))>>::type
     {
         if(opt_value.has_value())
         {
@@ -29,7 +29,7 @@ struct ThenImpl{
     }
 
     template<typename T>
-    constexpr auto operator()(std::optional<T>&& opt_value)-> typename std::enable_if<std::is_void<decltype(f(std::forward<decltype(opt_value.value())>(opt_value.value())))>::value,void>::type
+    constexpr auto operator()(std::optional<T>&& opt_value)const-> typename std::enable_if<std::is_void<decltype(f(std::forward<decltype(opt_value.value())>(opt_value.value())))>::value,void>::type
     {
         if(opt_value.has_value()) f(std::forward<decltype(opt_value.value())>(opt_value.value()));
     }

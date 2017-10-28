@@ -31,20 +31,20 @@ struct compose_impl
     template<std::size_t> struct int2type{};
 
     template<size_t N, typename ... Ts>
-    constexpr auto apply(int2type<N>, Ts&& ... ts)
+    constexpr auto apply(int2type<N>, Ts&& ... ts)const
     {
         return std::get<N>(functionTuple)(apply(int2type<N-1>(),std::forward<Ts>(ts)...));
     }
 
     static const size_t size = sizeof ... (Fs);
     template<typename ... Ts>
-    constexpr auto apply(int2type<0>, Ts&& ... ts)
+    constexpr auto apply(int2type<0>, Ts&& ... ts)const
     {
         return std::get<0>(functionTuple)(std::forward<Ts>(ts)...);
     }
 
     template<typename ... Ts>
-    constexpr auto operator()(Ts&& ... ts)
+    constexpr auto operator()(Ts&& ... ts)const
     {
         return apply(int2type<sizeof ... (Fs) - 1>(), std::forward<Ts>(ts)...);
     }

@@ -16,11 +16,11 @@ namespace ComposeTest{
 
     double DivideBy2(int i){return i/2.0;}
 
-    auto some_complex_function = compose(Add10,
-                                         DoubleIt,
-                                         DivideBy4);
+    constexpr auto const some_complex_function = compose(Add10,
+                                                         DoubleIt,
+                                                         DivideBy4);
 
-    auto some_even_more_complex_function = compose(some_complex_function, DivideBy2);
+    constexpr auto const some_even_more_complex_function = compose(some_complex_function, DivideBy2);
 
     TEST_CASE("Passing 4 results in 7") {
         REQUIRE(7 == some_complex_function(4));
@@ -42,7 +42,7 @@ namespace ThenTest {
     template<typename T> void DoNothing(T &&t){}
 
     template<typename F=decltype(DoNothing<int>)>
-    auto IfUpToFourOr(F f=DoNothing<int>){
+    constexpr auto IfUpToFourOr(F f=DoNothing<int>){
         return [f](int i)->std::optional<int> {
             if (i < 5) return i;
 
@@ -51,11 +51,11 @@ namespace ThenTest {
         };
     }
 
-    auto sfehler = [](int i){std::cout << "value " << i << " is out of range\n";};
+    constexpr auto const  sfehler = [](int i){std::cout << "value " << i << " is out of range\n";};
 
-    auto DoubleAndSquareIfLessThan3 = compose(DoubleIt,
-                                              IfUpToFourOr(sfehler),
-                                              Then(Square));
+    constexpr auto const DoubleAndSquareIfLessThan3 = compose(DoubleIt,
+                                                              IfUpToFourOr(sfehler),
+                                                              Then(Square));
 
     TEST_CASE("Passing 2 results in optional<int>(16)") {
         REQUIRE(std::optional<int>(16) == DoubleAndSquareIfLessThan3(2));
