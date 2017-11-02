@@ -14,21 +14,22 @@ class MultiPredImpl{
     template<std::size_t> struct int2type {};
     template<size_t N, typename T>
     auto apply(int2type<N>, T&& t)const {
-        return binary_op(std::get<N>(preds_tuple)(t), apply(int2type<N - 1>(), t));
+        return binary_op(std::get<N>(preds_tuple)(std::forward<T>(t)),
+                         apply(int2type<N - 1>(), std::forward<T>(t)));
     }
 
     template<typename T>
     auto apply(int2type<0>, T&&  t)const {
-        return std::get<0>(preds_tuple)(t);
+        return std::get<0>(preds_tuple)(std::forward<T>(t));
     }
 public:
     MultiPredImpl(BinaryOp&& op, Predicates&& ... preds)
-    : preds_tuple(preds ...)
-     ,binary_op(op){}
+    : preds_tuple(std::forward_as_tuple(preds ...))
+     ,binary_op(std::forward<BinaryOp>(op)){}
 
     template<typename T>
     auto operator()(T&& t)const {
-        return apply(int2type<sizeof ... (Predicates)-1>(), t);
+        return apply(int2type<sizeof ... (Predicates)-1>(), std::forward<T>(t));
     }
 
 };
