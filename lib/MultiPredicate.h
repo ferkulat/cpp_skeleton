@@ -7,13 +7,14 @@
 
 #include <tuple>
 
-template<typename ... Predicates>
-class MultiOrImpl{
+template<typename BinaryOp , typename ... Predicates>
+class MultiPredImpl{
     std::tuple<Predicates ...> preds_tuple;
+    BinaryOp binary_op;
     template<std::size_t> struct int2type {};
     template<size_t N, typename T>
     auto apply(int2type<N>, T&& t)const {
-        return std::get<N>(preds_tuple)(t) ||  apply(int2type<N - 1>(), t);
+        return binary_op(std::get<N>(preds_tuple)(t), apply(int2type<N - 1>(), t));
     }
 
     template<typename T>
@@ -21,8 +22,9 @@ class MultiOrImpl{
         return std::get<0>(preds_tuple)(t);
     }
 public:
-    MultiOrImpl(Predicates&& ... preds)
-    : preds_tuple(preds ...){}
+    MultiPredImpl(BinaryOp&& op, Predicates&& ... preds)
+    : preds_tuple(preds ...)
+     ,binary_op(op){}
 
     template<typename T>
     auto operator()(T&& t)const {
@@ -31,9 +33,9 @@ public:
 
 };
 
-template<typename ... Predicates>
-auto MultiOr(Predicates&& ... preds){
-    return MultiOrImpl<Predicates ...>(std::forward<Predicates>(preds) ...);
+template<typename BinaryOp , typename ... Predicates>
+auto MultiPred(BinaryOp &&op, Predicates &&... preds){
+    return MultiPredImpl<BinaryOp, Predicates ...>(std::forward<BinaryOp>(op), std::forward<Predicates>(preds) ...);
 }
 
 #endif //CATCH_MULTIPREDICATE_H

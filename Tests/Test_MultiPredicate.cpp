@@ -3,6 +3,7 @@
 //
 #include "catch.hpp"
 #include "MultiPredicate.h"
+#include <functional>
 
 namespace MultiPredicateTest {
     struct Data
@@ -31,8 +32,9 @@ namespace MultiPredicateTest {
 
         auto new_end = std::remove_if(std::begin(input),
                                       std::end(input),
-                                      MultiOr(D1LessThan(5),
-                                              D2Greater(13)));
+                                      MultiPred(std::logical_or<bool>(),
+                                                D1LessThan(5),
+                                                D2Greater(13)));
         input.erase(new_end, std::end(input));
         REQUIRE(expected == input);
     }
