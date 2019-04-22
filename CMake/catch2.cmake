@@ -8,7 +8,7 @@ include(FetchContent)
 FetchContent_Declare(
   extern_catch2
   DOWNLOAD_NO_EXTRACT true
-  DOWNLOAD URL        https://github.com/catchorg/Catch2/releases/download/v2.7.1/catch.hpp
+  DOWNLOAD URL        https://github.com/catchorg/Catch2/releases/download/${EXTERN_CATCH_TAG}/catch.hpp
   DOWNLOAD_DIR        ${CMAKE_CURRENT_SOURCE_DIR}/extern
 )
 

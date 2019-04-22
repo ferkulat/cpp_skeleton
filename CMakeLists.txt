@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.11)
 
 set (MY_PROJECTNAME cpp_skeleton)
 
+
+set(EXTERN_CATCH_TAG v2.7.1)
+
 project(${MY_PROJECTNAME} LANGUAGES CXX)
 
 set (EXTERN_DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extern)
