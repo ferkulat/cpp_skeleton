@@ -1,16 +1,19 @@
-cmake_minimum_required(VERSION 3.7)
-project(catch)
+cmake_minimum_required(VERSION 3.11)
+
+set (MY_PROJECTNAME cpp_skeleton)
+
+project(${MY_PROJECTNAME} LANGUAGES CXX)
+
+
+# Provide path for scripts
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
+
+include(warnings)
+include(MunkeiVersionFromGit)
 
 set(CMAKE_CXX_STANDARD 17)
-if (MSVC_VERSION GREATER_EQUAL "1911")
-    include(CheckCXXCompilerFlag)
-    CHECK_CXX_COMPILER_FLAG("/std:c++17" _cpp_latest_flag_supported)
-    if (_cpp_latest_flag_supported)
-        add_compile_options("/std:c++17")
-    endif()
-endif()
 add_subdirectory(lib)
 add_subdirectory(Tests)
 set(SOURCE_FILES main.cpp )
-add_executable(catch ${SOURCE_FILES})
-target_link_libraries (catch LINK_PUBLIC lib)
+add_executable(${MY_PROJECTNAME} ${SOURCE_FILES})
+target_link_libraries (${MY_PROJECTNAME} LINK_PUBLIC lib)
