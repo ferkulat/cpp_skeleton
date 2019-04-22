@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
 
 include(FetchContent)
+set(EXTERN_CATCH_TAG v2.7.1)
 
 # ------------------------------------------------------------------------------
 # A modern, C++-native, header-only, test framework for unit-tests,
