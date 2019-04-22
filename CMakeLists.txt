@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 3.11)
 
 set (MY_PROJECTNAME cpp_skeleton)
 
-
-set(EXTERN_CATCH_TAG v2.7.1)
-
 project(${MY_PROJECTNAME} LANGUAGES CXX)
 
-set (EXTERN_DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extern)
+set(EXTERN_CLARA_TAG v1.1.5)
+
+set(EXTERN_DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extern)
+set(EXTERN_CLARA_HEADER_DIR ${EXTERN_DEPENDENCIES_DIR}/clara)
 
 # Provide path for scripts
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
@@ -15,6 +15,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
 include(warnings)
 include(MunkeiVersionFromGit)
 #include(CppResultType)
+#include(clara)
 
 ## it spams the target list in CLion
 #include(CTestConfig)
