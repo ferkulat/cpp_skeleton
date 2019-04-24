@@ -4,7 +4,7 @@
 #include <catch.hpp>
 #include "fun.h"
 
-TEST_CASE("First failling test")
+TEST_CASE("First test")
 {
-    REQUIRE( 3 == fun(1) );
+    REQUIRE( 2 == fun(1) );
 }
