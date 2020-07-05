@@ -1,31 +1,28 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.14)
+set(CMAKE_VERBOSE_MAKEFILE ON)
+project(cpp_skeleton LANGUAGES CXX)
 
-set (MY_PROJECTNAME cpp_skeleton)
 
-project(${MY_PROJECTNAME} LANGUAGES CXX)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
 
-set(CMAKE_CXX_STANDARD 17)
-
-set(EXTERN_CLARA_TAG v1.1.5)
-
-set(EXTERN_DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extern)
-set(EXTERN_CLARA_HEADER_DIR ${EXTERN_DEPENDENCIES_DIR}/clara)
-
-# Provide path for scripts
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
-
-include(warnings)
-include(MunkeiVersionFromGit)
-#include(CppResultType)
-#include(clara)
-
-## it spams the target list in CLion
-include(CTestConfig)
+#include(MunkeiVersionFromGit)
+#include(msvc_cplusplus)
+include(catch2)
+#include(CTestConfig)
 include(CTest)
+include(warnings)
+#include(checkedcmd)
+#include(CppSkilledType)
+#include(CppResultType)
+
 enable_testing()
 
-add_subdirectory(lib)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+add_subdirectory(mylib)
 add_subdirectory(Tests)
 set(SOURCE_FILES main.cpp )
-add_executable(${MY_PROJECTNAME} ${SOURCE_FILES})
-target_link_libraries (${MY_PROJECTNAME} LINK_PUBLIC lib)
+add_executable(cpp_skeleton ${SOURCE_FILES})
+target_link_libraries (cpp_skeleton LINK_PUBLIC mylib)

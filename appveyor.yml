@@ -6,19 +6,19 @@ branches:
     - /dev-travis.+/
 
 os:
-  - Visual Studio 2017
+  - Visual Studio 2019
 
 environment:
     matrix:
-        - additional_flags: "/permissive- /std:c++latest"
-          wmain: 0
-
+#        - additional_flags: "/permissive- /std:c++latest"
+#          wmain: 0
+#
         - additional_flags: ""
           wmain: 0
-
-        - additional_flags: "/D_UNICODE /DUNICODE"
-          wmain: 1
-          coverage: 0
+#
+#        - additional_flags: "/D_UNICODE /DUNICODE"
+#          wmain: 1
+#          coverage: 0
 
 
 
@@ -54,16 +54,18 @@ matrix:
 # Win32 and x64 are CMake-compatible solution platform names.
 # This allows us to pass %PLATFORM% to CMake -A.
 platform:
-  - Win32
   - x64
+  - Win32
 
 # build Configurations, i.e. Debug, Release, etc.
 configuration:
-  - Debug
   - Release
+#  - Debug
 
 #Cmake will autodetect the compiler, but we set the arch
 before_build:
+  - choco upgrade cmake
+  - set path=C:\Program Files\CMake\bin;%path%
   - set CXXFLAGS=%additional_flags%
   # Indirection because appveyor doesn't handle multiline batch scripts properly
   # https://stackoverflow.com/questions/37627248/how-to-split-a-command-over-multiple-lines-in-appveyor-yml/37647169#37647169
@@ -71,12 +73,11 @@ before_build:
   - cmd: cmake -H. -BBuild -A%PLATFORM% -DUSE_WMAIN=%wmain% || exit /b !ERRORLEVEL!
 
 
-# build with MSBuild
-build:
-  project: Build\cpp_skeleton.sln         # path to Visual Studio solution or project
-  parallel: true                        # enable MSBuild parallel builds
-  verbosity: normal                     # MSBuild verbosity level {quiet|minimal|normal|detailed}
+build_script:
+  - cd Build
+  - cmake  ..
+  - cmake --build . --config %CONFIGURATION%
 
 test_script:
   - set CTEST_OUTPUT_ON_FAILURE=1
-  - cmd: ctest -j 2 -C %CONFIGURATION% || exit /b !ERRORLEVEL!
+  - cmd: ..\misc\appveyorTestRunScript.bat
