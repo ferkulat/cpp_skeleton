@@ -1,7 +1,7 @@
 //
 // Created by marcel on 3/30/17.
 //
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include "fun.h"
 
 TEST_CASE("First test")
