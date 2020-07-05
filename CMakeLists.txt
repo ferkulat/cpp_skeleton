@@ -17,14 +17,12 @@ include(warnings)
 
 enable_testing()
 
-include_directories("${PROJECT_BINARY_DIR}")
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_subdirectory(lib)
+add_subdirectory(mylib)
 add_subdirectory(Tests)
 set(SOURCE_FILES main.cpp )
 add_executable(cpp_skeleton ${SOURCE_FILES})
-target_link_libraries (cpp_skeleton LINK_PUBLIC lib)
+target_link_libraries (cpp_skeleton LINK_PUBLIC mylib)

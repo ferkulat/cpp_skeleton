@@ -3,7 +3,7 @@ include(catch2)
 #include(doctest)
 set(SOURCE_FILES TestMain.cpp Test_1.cpp)
 add_executable(tests ${SOURCE_FILES})
-target_link_libraries (tests LINK_PUBLIC lib Catch2::Catch2)
+target_link_libraries (tests PRIVATE mylib Catch2::Catch2)
 add_test(
         NAME tests
         COMMAND tests
